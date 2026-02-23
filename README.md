@@ -36,12 +36,6 @@ mvn test
 ```
 
 ## API Endpoints
-- `POST /oauth2/token` - Get OAuth2 token
-- `GET /api/users/{username}` - Get user details (cached)
-
-## OAuth2 Token Example
-```bash
-curl -X POST http://localhost:8081/oauth2/token \
-  -u client:secret \
-  -d "grant_type=client_credentials&scope=read write"
-```
+- `POST http://localhost:8081/api/v1/auth/login` - Get OAuth2 token
+- `GET localhost:8081/api/v1/users/username/{username}` - Get user details (cached)
+- `POST localhost:8081/api/v1/users/register` - Register User
