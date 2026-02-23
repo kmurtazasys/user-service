@@ -1,4 +1,4 @@
-# Kamil Auth Service
+# User Service
 
 OAuth2 Authorization Server for the microservices architecture.
 
