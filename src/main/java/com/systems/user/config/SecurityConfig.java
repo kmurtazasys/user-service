@@ -154,8 +154,8 @@ public class SecurityConfig {
                 .build();
 
         RegisteredClient internalClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("order-service")
-                .clientSecret(encoder.encode("order123"))
+                .clientId("orderService")
+                .clientSecret(encoder.encode("admin_order_1"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .scope("internal.read")
