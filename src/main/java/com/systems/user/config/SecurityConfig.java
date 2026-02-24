@@ -158,7 +158,7 @@ public class SecurityConfig {
                 .clientSecret(encoder.encode("admin_order_1"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .scope("internal.read")
+                .scope("payment.write")
                 .build();
 
         return new InMemoryRegisteredClientRepository(userClient, internalClient);
