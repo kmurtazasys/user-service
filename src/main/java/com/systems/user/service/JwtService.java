@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import com.systems.user.security.UserPrincipal;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +29,15 @@ public class JwtService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
+        UserPrincipal principal =
+                (UserPrincipal) authentication.getPrincipal();
+
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(authentication.getName())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(accessExpiration))
                 .claim("roles", roles)
+                .claim("userId", principal.getId())
                 .issuer("user-service")
                 .build();
 

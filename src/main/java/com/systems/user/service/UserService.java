@@ -13,6 +13,7 @@ import com.systems.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,13 +49,16 @@ public class UserService implements UserDetailsService {
             });
         
         log.debug("User loaded successfully: {}", username);
-        return org.springframework.security.core.userdetails.User
-            .withUsername(user.getUsername())
-            .password(user.getPassword())
-            .authorities(user.getRoles().stream()
-                .map(role -> "ROLE_" + role.getName())
-                .toArray(String[]::new))
-            .build();
+
+        return new com.systems.user.security.UserPrincipal(
+                user.getId(),                          // 👈 important
+                user.getUsername(),
+                user.getPassword(),
+                user.isEnabled(),
+                user.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                        .toList()
+        );
     }
     
     @Cacheable("users")
