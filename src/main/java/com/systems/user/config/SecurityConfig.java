@@ -123,13 +123,13 @@ public class SecurityConfig {
             var claims = context.getClaims();
 
             if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(context.getAuthorizationGrantType())) {
-                claims.claim("service", context.getRegisteredClient().getClientId());
+                claims.claim("id", context.getRegisteredClient().getClientId());
                 claims.claim("token_type", "service");
             }
 
             if (AuthorizationGrantType.AUTHORIZATION_CODE.equals(context.getAuthorizationGrantType())) {
                 if (context.getPrincipal().getPrincipal() instanceof UserPrincipal user) {
-                    claims.claim("userId", user.getId());
+                    claims.claim("id", user.getId());
                     claims.claim("username", user.getUsername());
                     claims.claim("roles", user.getAuthorities().stream()
                             .map(GrantedAuthority::getAuthority)
@@ -158,7 +158,7 @@ public class SecurityConfig {
                 .clientSecret(encoder.encode("admin_order_1"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .scope("payment.write")
+                .scope("PAYMENT.INTERNAL")
                 .build();
 
         return new InMemoryRegisteredClientRepository(userClient, internalClient);
